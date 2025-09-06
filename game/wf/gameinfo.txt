@@ -1,6 +1,6 @@
 "GameInfo"
 {
-	game					"Frog Fortress 2"
+	game					"Worse Fortress"
 	type 					multiplayer_only
 	nomodels				1
 	nohimodel 				1
@@ -32,9 +32,9 @@
 			// folder.
 			//
 			// Note that this folder is scanned only when the game is booted.
-			game+mod	mod_tf/custom/*
+			game+mod			wf/custom/*
 			// Enable this if you want to load your TF custom content.
-			//game+mod	|appid_440|tf/custom/*
+			//game+mod			|appid_440|tf/custom/*
 
 			// Now search loose files.  We'll set the directory containing the gameinfo.txt file
 			// as the first "mod" search path (after any user customizations).  This is also the one
@@ -53,16 +53,16 @@
 			game+mod			|appid_440|tf/tf2_sound_vo_english.vpk
 			game+mod			|appid_440|tf/tf2_sound_misc.vpk
 			game+mod+vgui		|appid_440|tf/tf2_misc.vpk
-			game				|appid_243750|hl2/hl2_textures.vpk
-			game				|appid_243750|hl2/hl2_sound_vo_english.vpk
-			game				|appid_243750|hl2/hl2_sound_misc.vpk
-			game+vgui			|appid_243750|hl2/hl2_misc.vpk
-			platform+vgui		|appid_243750|platform/platform_misc.vpk
+			game				|appid_440|hl2/hl2_textures.vpk
+			game				|appid_440|hl2/hl2_sound_vo_english.vpk
+			game				|appid_440|hl2/hl2_sound_misc.vpk
+			game+vgui			|appid_440|hl2/hl2_misc.vpk
+			platform+vgui		|appid_440|platform/platform_misc.vpk
 
 			// Last, mount in shared HL2 and TF2 loose files
 			game				|appid_440|tf
-			game				|appid_243750|hl2
-			platform			|appid_243750|platform
+			game				|appid_440|hl2
+			platform			|appid_440|platform
 
 			// Random files downloaded from gameservers go into a seperate directory, so
 			// that it's easy to keep those files segregated from the official game files
@@ -75,7 +75,7 @@
 			// packed up in the .bsp file so that it will be mounted as a map search pack.
 			// The map search pack is mounted at the top of the search path list,
 			// but only while you are connected that server and on that map.
-			game+download		mod_tf/download
+			game+download		wf/download
 		}
 	}
 }

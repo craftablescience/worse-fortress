@@ -246,7 +246,7 @@ BEGIN_PREDICTION_DATA( CTFWeaponBase )
 END_PREDICTION_DATA()
 
 #ifdef GAME_DLL
-BEGIN_ENT_SCRIPTDESC( CTFWeaponBase, CBaseCombatWeapon, "Team Fortress 2 Weapon" )
+BEGIN_ENT_SCRIPTDESC( CTFWeaponBase, CBaseCombatWeapon, "Worse Fortress Weapon" )
 END_SCRIPTDESC();
 #endif
 

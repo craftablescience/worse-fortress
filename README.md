@@ -52,10 +52,8 @@ Inside the cloned directory, run:
 
 This will build all the projects related to the SDK and your mods automatically against the Steam Runtime.
 
-Then, inside the cloned directory, run your mod by launching the build launcher for your mod project:
-```bash
-./mod_tf
-```
+Then, symlink the `game/wf` folder into your sourcemods folder in Steam. Restart Steam and launch from there.
+This is necessary to run the game in the sniper container, because I cannot be bothered right now.
 
 *Mods that are distributed on Steam MUST be built against the Steam Runtime, which the above steps will automatically do for you.*
 

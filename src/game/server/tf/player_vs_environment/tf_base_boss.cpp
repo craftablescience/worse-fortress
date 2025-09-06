@@ -49,7 +49,7 @@ BEGIN_DATADESC( CTFBaseBoss )
 
 END_DATADESC()
 
-BEGIN_ENT_SCRIPTDESC( CTFBaseBoss, NextBotCombatCharacter, "Team Fortress 2 Base Boss" )
+BEGIN_ENT_SCRIPTDESC( CTFBaseBoss, NextBotCombatCharacter, "Worse Fortress Base Boss" )
 	DEFINE_SCRIPTFUNC( SetResolvePlayerCollisions, "" )
 END_SCRIPTDESC();
 
