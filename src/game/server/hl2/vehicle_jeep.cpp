@@ -216,10 +216,13 @@ void CPropJeep::Spawn( void )
 
 	m_flMinimumSpeedToEnterExit = LOCK_SPEED;
 
-	m_nBulletType = GetAmmoDef()->Index("GaussEnergy");
-
-	CAmmoDef *pAmmoDef = GetAmmoDef();
-	m_nAmmoType = pAmmoDef->Index("GaussEnergy");
+#ifdef HL2_DLL
+	const char *pchAmmoName = "GaussEnergy";
+#else
+	const char *pchAmmoName = "TF_AMMO_PRIMARY";
+#endif
+	m_nBulletType = GetAmmoDef()->Index( pchAmmoName );
+	m_nAmmoType = GetAmmoDef()->Index( pchAmmoName );
 
 	if ( m_bHasGun )
 	{
