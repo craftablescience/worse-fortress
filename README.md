@@ -40,14 +40,19 @@ Requirements:
  - Source SDK 2013 Multiplayer installed via Steam
  - podman
 
-Inside the cloned directory, navigate to `src`, run:
+If you are running on a system using SELinux (e.g. Fedora), run the following once at the root of the cloned directory. This will fix the permission denied error:
 ```bash
-./buildallprojects
+chcon -Rt svirt_sandbox_file_t ./
+```
+
+Inside the cloned directory, run:
+```bash
+./src/buildallprojects
 ```
 
 This will build all the projects related to the SDK and your mods automatically against the Steam Runtime.
 
-You can then, in the root of the cloned directory, you can navigate to `game` and run your mod by launching the build launcher for your mod project, eg:
+Then, inside the cloned directory, run your mod by launching the build launcher for your mod project:
 ```bash
 ./mod_tf
 ```
