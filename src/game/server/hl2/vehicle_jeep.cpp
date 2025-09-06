@@ -194,6 +194,9 @@ void CPropJeep::Precache( void )
 
 	PrecacheScriptSound( "Jeep.GaussCharge" );
 
+	PrecacheScriptSound( "Airboat_headlight_on" );
+	PrecacheScriptSound( "Airboat_headlight_off" );
+
 	PrecacheModel( GAUSS_BEAM_SPRITE );
 
 	BaseClass::Precache();
@@ -1324,10 +1327,9 @@ void CPropJeep::DriveVehicle( float flFrameTime, CUserCmd *ucmd, int iButtonsDow
 {
 	int iButtons = ucmd->buttons;
 
-	//Adrian: No headlights on Superfly.
-/*	if ( ucmd->impulse == 100 )
+	if ( ucmd->impulse == 100 )
 	{
-		if (HeadlightIsOn())
+		if ( HeadlightIsOn() )
 		{
 			HeadlightTurnOff();
 		}
@@ -1335,7 +1337,7 @@ void CPropJeep::DriveVehicle( float flFrameTime, CUserCmd *ucmd, int iButtonsDow
 		{
 			HeadlightTurnOn();
 		}
-	}*/
+	}
 		
 	// Only handle the cannon if the vehicle has one
 	if ( m_bHasGun )
@@ -1728,4 +1730,22 @@ int CJeepFourWheelServerVehicle::GetExitAnimToUse( Vector &vecEyeExitEndpoint, b
 	}
 
 	return BaseClass::GetExitAnimToUse( vecEyeExitEndpoint, bAllPointsBlocked );
+}
+
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
+void CPropJeep::HeadlightTurnOn( void )
+{
+	EmitSound( "Airboat_headlight_on" );
+	m_bHeadlightIsOn = true;
+}
+
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
+void CPropJeep::HeadlightTurnOff( void )
+{
+	EmitSound( "Airboat_headlight_off" );
+	m_bHeadlightIsOn = false;
 }

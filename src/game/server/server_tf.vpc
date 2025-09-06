@@ -111,6 +111,14 @@ $Project "Server (TF)"
 			$File	"$SRCDIR\game\server\tf\workshop\maps_workshop.cpp"
 		}
 
+		$Folder "HL2"
+		{
+            $File	"$SRCDIR\game\server\hl2\npc_crow.cpp"
+		    $File	"$SRCDIR\game\server\hl2\npc_crow.h"
+			$File	"$SRCDIR\game\server\hl2\vehicle_jeep.cpp"
+			$File	"$SRCDIR\game\server\hl2\vehicle_jeep.h"
+		}
+
 		$Folder	"TF"
 		{
 			$File	"$SRCDIR\game\shared\tf\tf_weapon_passtime_gun.cpp"

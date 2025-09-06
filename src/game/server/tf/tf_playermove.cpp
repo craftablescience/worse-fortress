@@ -10,7 +10,9 @@
 #include "igamemovement.h"
 #include "in_buttons.h"
 #include "ipredictionsystem.h"
+#include "iservervehicle.h"
 #include "tf_player.h"
+#include "vehicle_base.h"
 
 
 static CMoveData g_MoveData;
@@ -27,9 +29,19 @@ class CTFPlayerMove : public CPlayerMove
 DECLARE_CLASS( CTFPlayerMove, CPlayerMove );
 
 public:
+	CTFPlayerMove()
+	{
+		m_vecSaveOrigin.Init();
+	}
+
 	virtual void	StartCommand( CBasePlayer *player, CUserCmd *cmd );
 	virtual void	SetupMove( CBasePlayer *player, CUserCmd *ucmd, IMoveHelper *pHelper, CMoveData *move );
 	virtual void	FinishMove( CBasePlayer *player, CUserCmd *ucmd, CMoveData *move );
+
+private:
+	Vector m_vecSaveOrigin;
+	bool m_bWasInVehicle = false;
+	bool m_bVehicleFlipped = false;
 };
 
 // PlayerMove Interface
@@ -111,6 +123,30 @@ void CTFPlayerMove::SetupMove( CBasePlayer *player, CUserCmd *ucmd, IMoveHelper 
 	}
 
 	BaseClass::SetupMove( player, ucmd, pHelper, move );
+
+	if ( gpGlobals->frametime != 0 )
+	{
+		IServerVehicle *pVehicle = player->GetVehicle();
+
+		if ( pVehicle )
+		{
+			pVehicle->SetupMove( player, ucmd, pHelper, move );
+
+			if ( !m_bWasInVehicle )
+			{
+				m_bWasInVehicle = true;
+				m_vecSaveOrigin.Init();
+			}
+		}
+		else
+		{
+			m_vecSaveOrigin = player->GetAbsOrigin();
+			if ( m_bWasInVehicle )
+			{
+				m_bWasInVehicle = false;
+			}
+		}
+	}
 }
 
 
@@ -124,4 +160,45 @@ void CTFPlayerMove::FinishMove( CBasePlayer *player, CUserCmd *ucmd, CMoveData *
 {
 	// Call the default FinishMove code.
 	BaseClass::FinishMove( player, ucmd, move );
+
+	if ( gpGlobals->frametime != 0 )
+	{
+		float distance = 0.0f;
+		IServerVehicle *pVehicle = player->GetVehicle();
+		if ( pVehicle )
+		{
+			pVehicle->FinishMove( player, ucmd, move );
+			IPhysicsObject *obj = player->GetVehicleEntity()->VPhysicsGetObject();
+			if ( obj )
+			{
+				Vector newPos;
+				obj->GetPosition( &newPos, NULL );
+				distance = VectorLength( newPos - m_vecSaveOrigin );
+				if ( m_vecSaveOrigin == vec3_origin || distance > 100.0f )
+					distance = 0.0f;
+				m_vecSaveOrigin = newPos;
+			}
+
+			CPropVehicleDriveable *driveable = dynamic_cast< CPropVehicleDriveable * >( player->GetVehicleEntity() );
+			if ( driveable )
+			{
+				// Overturned and at rest (if still moving it can fix itself)
+				bool bFlipped = driveable->IsOverturned() && ( distance < 0.5f );
+				if ( m_bVehicleFlipped != bFlipped )
+				{
+					m_bVehicleFlipped = bFlipped;
+				}
+			}
+			else
+			{
+				m_bVehicleFlipped = false;
+			}
+		}
+		else
+		{
+			m_bVehicleFlipped = false;
+			distance = VectorLength( player->GetAbsOrigin() - m_vecSaveOrigin );
+		}
+
+	}
 }

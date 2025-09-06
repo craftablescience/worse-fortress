@@ -130,8 +130,10 @@ void CNPC_Crow::Spawn( void )
 	bool bFlying = ( ( m_spawnflags & SF_CROW_FLYING ) != 0 );
 	SetFlyingState( bFlying ? FlyState_Flying : FlyState_Walking );
 
+#ifdef HL2_DLL
 	// We don't mind zombies so much. They smell good!
 	AddClassRelationship( CLASS_ZOMBIE, D_NU, 0 );
+#endif
 
 	m_bSoar = false;
 	m_bOnJeep = false;
@@ -155,7 +157,11 @@ void CNPC_Crow::Spawn( void )
 //-----------------------------------------------------------------------------
 Class_T	CNPC_Crow::Classify( void )
 {
-	return( CLASS_EARTH_FAUNA ); 
+#ifdef HL2_DLL
+	return( CLASS_EARTH_FAUNA );
+#else
+	return BaseClass::Classify();
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -1335,6 +1341,7 @@ void CNPC_Crow::FlapSound( void )
 //-----------------------------------------------------------------------------
 bool CNPC_Crow::HandleInteraction( int interactionType, void *data, CBaseCombatCharacter *sourceEnt )
 {
+#ifdef HL2_DLL
 	if ( interactionType == g_interactionBarnacleVictimDangle )
 	{
 		// Die instantly
@@ -1359,7 +1366,7 @@ bool CNPC_Crow::HandleInteraction( int interactionType, void *data, CBaseCombatC
 		SetThink( NULL );
 		return true;
 	}
-
+#endif
 	return BaseClass::HandleInteraction( interactionType, data, sourceEnt );
 }
 
